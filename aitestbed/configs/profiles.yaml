@@ -33,6 +33,20 @@ profiles:
     limit_packets: null
     rate_mbit: null
 
+## payload loss for One-D-Piece UDP test
+  lossy_payload:
+    description: "Lossy with payload size limit"
+    delay_ms: 0
+    jitter_ms: 0
+    delay_distribution: fixed
+    loss_pct: 0
+    loss_correlation_pct: 0
+    reorder_pct: 0.0
+    reorder_correlation_pct: 0
+    duplicate_pct: 0.0
+    limit_packets: null
+    rate_mbit: null
+
   lossy:
     description: "Lossy"
     delay_ms: 0
