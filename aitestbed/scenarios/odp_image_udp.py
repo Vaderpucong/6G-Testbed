@@ -63,7 +63,7 @@ from pathlib import Path
 from clients.base import LLMClient
 from .base import BaseScenario, ScenarioResult
 from analysis.logger import TrafficLogger
-from aicodec import odp_udp_wire as wire
+from aicodec.models.one_d_piece import odp_udp_wire as wire
 
 logger = logging.getLogger(__name__)
 

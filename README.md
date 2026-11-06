@@ -4,11 +4,11 @@ A framework for measuring and analyzing AI/LLM service traffic patterns under va
 
 ## Components
 
-| Component | Description |
-|-----------|-------------|
-| [aitestbed/](./aitestbed/) | Main testing framework for running AI traffic experiments |
-| [netemu/](./netemu/) | Network emulation library wrapping Linux tc/netem |
-| [aicodec/](./aicodec/) | AI codec plugin for aiortc (token semantic communication: VLM tokenizer and LLM processing over RTP) |
+| Component                  | Description                                                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| [aitestbed/](./aitestbed/) | Main testing framework for running AI traffic experiments                                            |
+| [netemu/](./netemu/)       | Network emulation library wrapping Linux tc/netem                                                    |
+| [aicodec/](./aicodec/)     | AI codec plugin for aiortc (token semantic communication: VLM tokenizer and LLM processing over RTP) |
 
 ## aitestbed
 
@@ -90,10 +90,10 @@ A dedicated experiment family that measures the traffic/QoE impact of moving the
 
 Two parallel model families (standalone-sibling file sets, zero cross-dependencies):
 
-| Family | Model | Serial sidecar | Concurrent sidecar | Serial runner | Concurrent runner |
-|--------|-------|---------------|--------------------|---------------|-------------------|
-| Qwen3-VL | `Qwen3-VL-30B-A3B-Instruct` (also 4B) | port 8002 | port 8012 | yaml/env entry (`configs/scenarios.yaml`, scenario `encoder_placement`) — no dedicated runner script | `run_encoder_placement_concurrent.py` |
-| Qwen3.6 | `Qwen3.6-35B-A3B(-FP8)` | port 8004 | port 8014 | `run_encoder_placement_qwen36.py` | `run_encoder_placement_concurrent_qwen36.py` |
+| Family   | Model                                 | Serial sidecar | Concurrent sidecar | Serial runner                                                                                        | Concurrent runner                            |
+| -------- | ------------------------------------- | -------------- | ------------------ | ---------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| Qwen3-VL | `Qwen3-VL-30B-A3B-Instruct` (also 4B) | port 8002      | port 8012          | yaml/env entry (`configs/scenarios.yaml`, scenario `encoder_placement`) — no dedicated runner script | `run_encoder_placement_concurrent.py`        |
+| Qwen3.6  | `Qwen3.6-35B-A3B(-FP8)`               | port 8004      | port 8014          | `run_encoder_placement_qwen36.py`                                                                    | `run_encoder_placement_concurrent_qwen36.py` |
 
 ### Two-tier retention split (VidCom2 layered transfer)
 
