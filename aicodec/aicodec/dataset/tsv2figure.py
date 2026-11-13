@@ -1,31 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-从官方 MMBench TSV 文件一键生成本仓库使用的图片 + manifest.jsonl。
+One-shot conversion from an official MMBench TSV file to the image +
+manifest.jsonl layout this repo uses.
 
-MMBench 官方分发的是单个 TSV 文件（每行一条样本，图片以 base64 编码存
-在某一列里），而 One-D-Piece <-> Qwen3-VL 的测试管线 (aitestbed/scenarios
-/odp_image_udp.py, run_odp_mmbench_pipeline.py) 消费的是"解压好的 jpg +
-manifest.jsonl"目录。本脚本负责这一步转换。
+MMBench officially ships a single TSV file (one row per sample, with the
+image stored as base64 in one column), while the One-D-Piece <-> Qwen3-VL
+test pipeline (aitestbed/scenarios/odp_image_udp.py,
+run_odp_mmbench_pipeline.py) consumes a directory of "already-decoded jpg +
+manifest.jsonl". This script performs that conversion.
 
-加固要点（相对最初的 pandas 版本）：
-- 纯标准库 csv 解析，不依赖 pandas，避免 NaN/dtype 相关的隐藏坑。
-- image 列里出现的跨行引用（值是另一行的 index）会被解析到不动点，
-  并检测自引用环/断链。
-- 每个 base64 payload 解码后都用 PIL 校验，损坏数据直接报错而不是
-  静默写出空文件。
-- 幂等：已存在且校验通过的图片会被跳过，只有损坏/缺失的才会重新解码。
+Hardening notes (relative to the original pandas-based version):
+- Pure stdlib csv parsing, no pandas dependency, avoiding hidden NaN/dtype
+  pitfalls.
+- Cross-row references in the image column (a value that is another row's
+  index) are resolved to a fixed point, with self-reference cycles/broken
+  chains detected.
+- Every base64 payload is verified with PIL after decoding; corrupted data
+  raises an error instead of silently writing an empty file.
+- Idempotent: images that already exist and pass verification are skipped;
+  only corrupted/missing ones are re-decoded.
 
-用法:
+Usage:
     python aicodec/aicodec/dataset/tsv2figure.py \
         --tsv /path/to/MMBench_DEV_EN.tsv \
         --out-dir aicodec/aicodec/dataset/MMBench/MMBench_DEV_EN \
         --split dev
 
-输出:
-    <out-dir>/<index>.jpg (或 .png)
+Output:
+    <out-dir>/<index>.jpg (or .png)
     <out-dir>/manifest.jsonl
-    (可选 --report) <report>.json -- 失败项/缺失项/孤立文件汇总
+    (optional --report) <report>.json -- summary of failures/missing/orphans
 """
 from __future__ import annotations
 

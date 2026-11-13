@@ -44,7 +44,6 @@ import socket
 import sys
 import time
 from pathlib import Path
-## 在不安装依赖包的情况下，让 Python 解释器能够找到项目内部的模块
 # Bootstrap the sibling aicodec package relative to this file's location
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 _AICODEC_PATH = _REPO_ROOT / "aicodec"
@@ -181,10 +180,10 @@ class ODPImageUDPWholeClient:
         self.bridge()
 
         for index, name, path in images:
-            rec = self._send_one(sock, index, name, path, metrics)  ##发送
+            rec = self._send_one(sock, index, name, path, metrics)  ## send one image
             records.append(rec)
             if self.inter_image_delay_sec > 0:
-                time.sleep(self.inter_image_delay_sec)  ##发送图片间隔休眠
+                time.sleep(self.inter_image_delay_sec)  ## sleep between image sends
 
         # Tell the server the session is over so it can flush partials and
         # write its report without waiting for the reassembly timeout.

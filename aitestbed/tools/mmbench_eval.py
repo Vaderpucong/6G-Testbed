@@ -89,7 +89,7 @@ def load_records(data_dir: Path, manifest: Path, limit: int | None) -> list[dict
             answer = str(raw.get("answer", "")).strip().upper()
             if not choices or answer not in choices:
                 sys.exit(f"[FATAL] manifest line {line_number}: bad answer {answer!r}")
-            image = find_image(data_dir, index)  ##图像匹配
+            image = find_image(data_dir, index)  ## match the image file
             if image is None:
                 missing.append(index)
                 continue
@@ -184,7 +184,7 @@ def build_vllm_input(record: dict[str, Any], processor) -> dict[str, Any]:
             {"type": "text", "text": format_question(record)},
         ],
     }]
-    ## 将Massages列表转化成模型能理解的纯文本序列
+    ## Convert the messages list into the plain-text sequence the model expects
     text = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     # qwen_vl_utils 0.0.14+ signature, mirroring the RealWorldQA pipeline.
     image_inputs, video_inputs, video_kwargs = process_vision_info(
@@ -215,7 +215,7 @@ def run_inference(records: list[dict[str, Any]], args) -> list[str]:
     # CUDA context in this process would break the engine's subprocess launch.
     processor = AutoProcessor.from_pretrained(args.model, trust_remote_code=True)
     llm = LLM(
-        model=args.model,  ##加载模型
+        model=args.model,  ## load the model
         tensor_parallel_size=args.tensor_parallel_size,
         gpu_memory_utilization=args.gpu_memory_utilization,
         trust_remote_code=True,
