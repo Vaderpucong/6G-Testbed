@@ -76,6 +76,8 @@ aicodec/aicodec/dataset/StreamingBench/**/questions_results_*.json
 
 aicodec/aicodec/dataset/MMBench/MMBench_DEV_EN/**
 !aicodec/aicodec/dataset/MMBench/MMBench_DEV_EN/download*
+!aicodec/aicodec/dataset/MMBench/MMBench_DEV_EN/.gitkeep
+!aicodec/aicodec/dataset/MMBench/MMBench_DEV_EN/manifest.jsonl
 
 aicodec/aicodec/models/one_d_piece/checkpoints/**
 !aicodec/aicodec/models/one_d_piece/checkpoints/download*
